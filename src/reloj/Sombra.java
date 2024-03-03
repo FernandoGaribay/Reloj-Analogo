@@ -1,4 +1,4 @@
-package main;
+package reloj;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

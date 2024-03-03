@@ -38,7 +38,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="main.Reloj" name="reloj1">
+    <Container class="reloj.Reloj" name="reloj1">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="f0" green="f0" red="f0" type="rgb"/>

@@ -1,4 +1,4 @@
-package main;
+package reloj;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,6 +8,7 @@ import java.util.Calendar;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import reloj.componentes.RelojBackground;
 
 public class Reloj extends JPanel {
 
@@ -24,6 +25,8 @@ public class Reloj extends JPanel {
     private BufferedImage minutero;
     private BufferedImage horario;
     private BufferedImage clavo;
+    
+    private RelojBackground background;
 
     public Reloj() {
         TAMANO_SEGUNDOS = 200;
@@ -36,7 +39,10 @@ public class Reloj extends JPanel {
                 DIAMETRO_RELOJ = getWidth();
                 CENTRO_X = getWidth() / 2;
                 CENTRO_Y = getHeight() / 2;
-
+                
+                background = new RelojBackground(getWidth());
+                
+                
                 repaint();
                 timer.start();
             }
@@ -56,7 +62,7 @@ public class Reloj extends JPanel {
         super.paint(g);
 
         if (reloj == null) {
-            reloj = dibujarReloj();
+            reloj = background.dibujarReloj();
             segundero = dibujarSegundos();
             minutero = dibujarMinutos();
             horario = dibujarHoras();

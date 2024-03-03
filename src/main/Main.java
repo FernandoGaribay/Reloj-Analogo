@@ -10,7 +10,7 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        reloj1 = new main.Reloj();
+        reloj1 = new reloj.Reloj();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAutoRequestFocus(false);
@@ -72,6 +72,6 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private main.Reloj reloj1;
+    private reloj.Reloj reloj1;
     // End of variables declaration//GEN-END:variables
 }
