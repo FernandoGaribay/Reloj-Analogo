@@ -5,7 +5,7 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -17,7 +17,8 @@ public class Main extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setResizable(false);
 
-        reloj1.setBackground(new java.awt.Color(225, 225, 225));
+        reloj1.setBackground(new java.awt.Color(240, 240, 240));
+        reloj1.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout reloj1Layout = new javax.swing.GroupLayout(reloj1);
         reloj1.setLayout(reloj1Layout);
