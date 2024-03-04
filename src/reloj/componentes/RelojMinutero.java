@@ -20,6 +20,9 @@ public class RelojMinutero implements Runnable {
     private final int CENTRO_Y;
 
     private Thread hilo;
+    private float anguloActual;
+    private int delay;
+    private float periodo;
 
     private BufferedImage minutero;
 
@@ -32,6 +35,8 @@ public class RelojMinutero implements Runnable {
         this.CENTRO_Y = this.DIAMETRO_RELOJ / 2;
 
         this.hilo = new Thread(this);
+        this.anguloActual = calcularAngulo(Calendar.getInstance().get(Calendar.MINUTE));
+        this.setAtomico(true);
 
         this.minutero = new BufferedImage(DIAMETRO_RELOJ, DIAMETRO_RELOJ, BufferedImage.TYPE_INT_ARGB);
 
@@ -41,25 +46,33 @@ public class RelojMinutero implements Runnable {
     @Override
     public void run() {
         while (true) {
-            this.minutero = RelojMinutero.this.dibujarMinutero();
+            this.anguloActual = avanzarAngulo(this.anguloActual);
+            this.minutero = dibujarMinutero(this.anguloActual);
             RELOJ.dibujarMinutero(minutero);
 
             // Delay
             try {
                 System.out.println("Minutero dibujado");
-                Thread.sleep(1000);
+                Thread.sleep(delay);
             } catch (InterruptedException ex) {
                 Logger.getLogger(RelojSegundero.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
 
-    public BufferedImage dibujarMinutero() {
-        BufferedImage tempMinutero = new BufferedImage(DIAMETRO_RELOJ, DIAMETRO_RELOJ, BufferedImage.TYPE_INT_ARGB);
+    public float avanzarAngulo(float anguloActual) {
+        float gradosPorMinuto = 6.0f;
+        float gradosPorIntervalo = gradosPorMinuto * periodo; // avanzar 6 grados cada 100 ms
+        anguloActual += gradosPorIntervalo;
 
-        int minuto = Calendar.getInstance().get(Calendar.MINUTE);
-//        int minuto = 0;
-        float angulo = minuto * 6 - 90;
+        if (anguloActual >= 360) {
+            anguloActual = 0;
+        }
+        return anguloActual;
+    }
+
+    public BufferedImage dibujarMinutero(float angulo) {
+        BufferedImage tempMinutero = new BufferedImage(DIAMETRO_RELOJ, DIAMETRO_RELOJ, BufferedImage.TYPE_INT_ARGB);
 
         // Se crea el objeto graphics del buffer
         Graphics2D g2 = tempMinutero.createGraphics();
@@ -73,6 +86,10 @@ public class RelojMinutero implements Runnable {
         return tempMinutero;
     }
 
+    private float calcularAngulo(int minuto) {
+        return minuto * 6 - 90;
+    }
+
     private void dibujarMinutero(Graphics2D g2, Point[] puntos) {
         g2.setColor(new Color(0, 0, 0));
         g2.setStroke(new BasicStroke(2));
@@ -80,13 +97,11 @@ public class RelojMinutero implements Runnable {
         int[] xPoints = {CENTRO_X + puntos[0].x,
             CENTRO_X + puntos[1].x,
             CENTRO_X + puntos[2].x,
-            CENTRO_X + puntos[3].x,
-        };
+            CENTRO_X + puntos[3].x,};
         int[] yPoints = {CENTRO_Y + puntos[0].y,
             CENTRO_Y + puntos[1].y,
             CENTRO_Y + puntos[2].y,
-            CENTRO_Y + puntos[3].y,
-        };
+            CENTRO_Y + puntos[3].y,};
 
 //        g2.setStroke(new BasicStroke(1));
 //        g2.drawLine(CENTRO_X, CENTRO_Y, xPoints[0], yPoints[0]);
@@ -110,5 +125,15 @@ public class RelojMinutero implements Runnable {
         int y = (int) (tamanio * Math.sin(Math.toRadians(angulo)));
 
         return new Point(x, y);
+    }
+
+    public void setAtomico(boolean atomico) {
+        if (atomico) {
+            this.delay = 3000;
+            this.periodo = 0.05f;
+        } else {
+            this.delay = 60000;
+            this.periodo = 1.0f;
+        }
     }
 }
