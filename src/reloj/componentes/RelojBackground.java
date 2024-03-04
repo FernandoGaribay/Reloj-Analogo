@@ -67,7 +67,7 @@ public class RelojBackground {
     }
 
     public BufferedImage dibujarNumeros() {
-        Font fuenteNumero = new Font("Arial", Font.PLAIN, 30);
+        Font fuenteNumero = new Font("Arial", Font.PLAIN, (int) (DIAMETRO_CIRCULO_BG * 0.2));
         BufferedImage numeros = new BufferedImage(DIAMETRO_RELOJ, DIAMETRO_RELOJ, BufferedImage.TYPE_INT_ARGB);
 
         // Obtenemos el objeto de Graphics2D y establecemos su fuente
