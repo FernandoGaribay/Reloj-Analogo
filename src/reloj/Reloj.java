@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import reloj.componentes.RelojBackground;
+import reloj.componentes.RelojHorario;
 import reloj.componentes.RelojMinutero;
 import reloj.componentes.RelojSegundero;
 import reloj.interfaces.RelojInterface;
@@ -29,6 +30,7 @@ public class Reloj extends JPanel implements RelojInterface {
     private RelojBackground background;
     private RelojSegundero relojSegundero;
     private RelojMinutero relojMinutero;
+    private RelojHorario relojHorario;
 
     public Reloj() {
         TAMANO_SEGUNDOS = 200;
@@ -57,9 +59,11 @@ public class Reloj extends JPanel implements RelojInterface {
             reloj = background.dibujarReloj();
             relojSegundero = new RelojSegundero(this, getWidth(), TAMANO_SEGUNDOS);
             relojMinutero = new RelojMinutero(this, getWidth(), TAMANO_MINUTOS);
+            relojHorario = new RelojHorario(this, getWidth(), TAMANO_HORAS);
         }
 
         g.drawImage(reloj, CENTRO_X - reloj.getWidth() / 2, CENTRO_Y - reloj.getHeight() / 2, null);
+        g.drawImage(horario, CENTRO_X - reloj.getWidth() / 2, CENTRO_Y - reloj.getHeight() / 2, null);
         g.drawImage(minutero, CENTRO_X - reloj.getWidth() / 2, CENTRO_Y - reloj.getHeight() / 2, null);
         g.drawImage(segundero, CENTRO_X - reloj.getWidth() / 2, CENTRO_Y - reloj.getHeight() / 2, null);
     }
@@ -77,54 +81,15 @@ public class Reloj extends JPanel implements RelojInterface {
 
         repaint();
     }
+    
+    @Override
+    public void dibujarHorario(BufferedImage horario) {
+        this.horario = horario;
+
+        repaint();
+    }
 }
 
-//    private BufferedImage dibujarMinutos() {
-//        int minuto = Calendar.getInstance().get(Calendar.MINUTE);
-////        int minuto = 15;
-//
-//        BufferedImage minutero = new BufferedImage(DIAMETRO_RELOJ, DIAMETRO_RELOJ, BufferedImage.TYPE_INT_ARGB);
-//
-//        float angulo = minuto * 6 - 90;
-//
-//        // Se crea el objeto graphics del buffer
-//        Graphics2D g2 = minutero.createGraphics();
-//        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-//
-//        Point point = calcularCoordenada(angulo, TAMANO_MINUTOS);
-//
-//        g2.setColor(new Color(0, 0, 0));
-//        g2.setStroke(new BasicStroke(2));
-//        g2.drawLine(CENTRO_X, CENTRO_Y, CENTRO_X + point.x, CENTRO_Y + point.y);
-//
-//        g2.dispose();
-//        return minutero;
-//    }
-//
-//    private BufferedImage dibujarHoras() {
-//        int hora = Calendar.getInstance().get(Calendar.HOUR);
-//
-//        BufferedImage horario = new BufferedImage(DIAMETRO_RELOJ, DIAMETRO_RELOJ, BufferedImage.TYPE_INT_ARGB);
-//
-//        // 1 segundo equivale a 6 grados
-//        float angulo = hora * 30 - 90;
-//
-//        // Se crea el objeto graphics del buffer
-//        Graphics2D g2 = horario.createGraphics();
-//        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-//
-//        // Se calculan los puntos a donde debe mirar la ajuga
-//        Point puntaAjuga = calcularCoordenada(angulo, TAMANO_HORAS);
-//
-//        // Se dibuja
-//        g2.setColor(new Color(0, 0, 0));
-//        g2.setStroke(new BasicStroke(2));
-//        g2.drawLine(CENTRO_X, CENTRO_Y, CENTRO_X + puntaAjuga.x, CENTRO_Y + puntaAjuga.y);
-//
-//        g2.dispose();
-//        return horario;
-//    }
-//
 //    private BufferedImage dibujarClavo() {
 //        BufferedImage clavo = new BufferedImage(DIAMETRO_RELOJ, DIAMETRO_RELOJ, BufferedImage.TYPE_INT_ARGB);
 //
