@@ -61,10 +61,11 @@ public class RelojSegundero implements Runnable {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         int segundo = Calendar.getInstance().get(Calendar.SECOND);
+//        int segundo = 0;
         float angulo = calcularAngulo(segundo);
 
         Point puntaAjuga = calcularCoordenada(angulo, TAMANO_SEGUNDOS);
-        Point colaAjuga = calcularCoordenada(angulo + 180, (int) (TAMANO_SEGUNDOS * 0.35));
+        Point colaAjuga = calcularCoordenada(angulo + 180, (int) (TAMANO_SEGUNDOS * 0.25));
         Point[] puntosCola = calcularPuntosCola(angulo, TAMANO_SEGUNDOS);
 
         // Dibujado en el buffer
@@ -79,25 +80,44 @@ public class RelojSegundero implements Runnable {
     }
 
     private void dibujarSegundero(Graphics2D g2, Point puntaAjuga, Point colaAjuga, Point[] puntosCola) {
-        g2.setColor(new Color(255, 119, 119));
+        g2.setColor(new Color(255, 120, 120));
         g2.setStroke(new BasicStroke(3));
 
         g2.drawLine(CENTRO_X, CENTRO_Y, CENTRO_X + puntaAjuga.x, CENTRO_Y + puntaAjuga.y);
         g2.drawLine(CENTRO_X, CENTRO_Y, CENTRO_X + colaAjuga.x, CENTRO_Y + colaAjuga.y);
 
-        int[] xPoints = {CENTRO_X + puntosCola[0].x, CENTRO_X + puntosCola[1].x, CENTRO_X + puntosCola[2].x, CENTRO_X + puntosCola[3].x};
-        int[] yPoints = {CENTRO_Y + puntosCola[0].y, CENTRO_Y + puntosCola[1].y, CENTRO_Y + puntosCola[2].y, CENTRO_Y + puntosCola[3].y};
+        int[] xPoints = {CENTRO_X + puntosCola[0].x,
+            CENTRO_X + puntosCola[1].x,
+            CENTRO_X + puntosCola[2].x,
+            CENTRO_X + puntosCola[3].x,
+            CENTRO_X + puntosCola[4].x,
+            CENTRO_X + puntosCola[5].x,};
+        int[] yPoints = {CENTRO_Y + puntosCola[0].y,
+            CENTRO_Y + puntosCola[1].y,
+            CENTRO_Y + puntosCola[2].y,
+            CENTRO_Y + puntosCola[3].y,
+            CENTRO_Y + puntosCola[4].y,
+            CENTRO_Y + puntosCola[5].y,};
 
-        g2.fillPolygon(xPoints, yPoints, 4);
+//        g2.setStroke(new BasicStroke(1));
+//        g2.drawLine(CENTRO_X, CENTRO_Y, xPoints[0], yPoints[0]);
+//        g2.drawLine(CENTRO_X, CENTRO_Y, xPoints[1], yPoints[1]);
+//        g2.drawLine(CENTRO_X, CENTRO_Y, xPoints[2], yPoints[2]);
+//        g2.drawLine(CENTRO_X, CENTRO_Y, xPoints[3], yPoints[3]);
+//        g2.drawLine(CENTRO_X, CENTRO_Y, xPoints[4], yPoints[4]);
+//        g2.drawLine(CENTRO_X, CENTRO_Y, xPoints[5], yPoints[5]);
+        g2.fillPolygon(xPoints, yPoints, 6);
     }
 
     private Point[] calcularPuntosCola(float angulo, int tamanio) {
-        Point punto1Cola = calcularCoordenada(angulo + 180 - 4, (int) (tamanio * 0.4));
-        Point punto2Cola = calcularCoordenada(angulo + 180 + 3, (int) (tamanio * 0.4));
-        Point punto3Cola = calcularCoordenada(angulo + 180 - 15, (int) (tamanio * 0.1));
-        Point punto4Cola = calcularCoordenada(angulo + 180 + 14, (int) (tamanio * 0.1));
+        Point punto0Cola = calcularCoordenada(angulo + 180, (int) (tamanio * 0.07));
+        Point punto1Cola = calcularCoordenada(angulo + 180 + 11, (int) (tamanio * 0.15));
+        Point punto2Cola = calcularCoordenada(angulo + 180 + 5, (int) (tamanio * 0.3));
+        Point punto3Cola = calcularCoordenada(angulo + 180 - 5, (int) (tamanio * 0.3));
+        Point punto4Cola = calcularCoordenada(angulo + 180 - 11, (int) (tamanio * 0.15));
+        Point punto5Cola = calcularCoordenada(angulo + 180, (int) (tamanio * 0.07));
 
-        return new Point[]{punto1Cola, punto2Cola, punto4Cola, punto3Cola};
+        return new Point[]{punto0Cola, punto1Cola, punto2Cola, punto3Cola, punto4Cola, punto5Cola};
     }
 
     private Point calcularCoordenada(float angulo, int tamanio) {

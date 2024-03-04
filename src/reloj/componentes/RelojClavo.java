@@ -24,10 +24,10 @@ public class RelojClavo {
         Graphics2D g2 = clavo.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        g2.setColor(Color.white);
-        g2.fillOval(CENTRO_X - 10, CENTRO_Y - 10, 20, 20);
-        g2.setColor(Color.BLACK);
-        g2.fillOval(CENTRO_X - 5, CENTRO_Y - 5, 10, 10);
+        g2.setColor(new Color(255, 120, 120));
+        g2.fillOval(CENTRO_X - 6, CENTRO_Y - 6, 12, 12);
+//        g2.setColor(Color.BLACK);
+//        g2.fillOval(CENTRO_X - 5, CENTRO_Y - 5, 10, 10);
 
         return clavo;
     }
