@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import reloj.componentes.RelojBackground;
+import reloj.componentes.RelojClavo;
 import reloj.componentes.RelojHorario;
 import reloj.componentes.RelojMinutero;
 import reloj.componentes.RelojSegundero;
@@ -27,7 +28,8 @@ public class Reloj extends JPanel implements RelojInterface {
     private BufferedImage horario;
     private BufferedImage clavo;
 
-    private RelojBackground background;
+    private RelojBackground relojBackground;
+    private RelojClavo relojClavo;
     private RelojSegundero relojSegundero;
     private RelojMinutero relojMinutero;
     private RelojHorario relojHorario;
@@ -44,7 +46,8 @@ public class Reloj extends JPanel implements RelojInterface {
                 CENTRO_X = getWidth() / 2;
                 CENTRO_Y = getHeight() / 2;
 
-                background = new RelojBackground(getWidth());
+                relojBackground = new RelojBackground(getWidth());
+                relojClavo = new RelojClavo(getWidth());
 
                 repaint();
             }
@@ -56,7 +59,8 @@ public class Reloj extends JPanel implements RelojInterface {
         super.paint(g);
 
         if (reloj == null) {
-            reloj = background.dibujarReloj();
+            reloj = relojBackground.dibujarReloj();
+            clavo = relojClavo.dibujarClavo();
             relojSegundero = new RelojSegundero(this, getWidth(), TAMANO_SEGUNDOS);
             relojMinutero = new RelojMinutero(this, getWidth(), TAMANO_MINUTOS);
             relojHorario = new RelojHorario(this, getWidth(), TAMANO_HORAS);
@@ -66,6 +70,7 @@ public class Reloj extends JPanel implements RelojInterface {
         g.drawImage(horario, CENTRO_X - reloj.getWidth() / 2, CENTRO_Y - reloj.getHeight() / 2, null);
         g.drawImage(minutero, CENTRO_X - reloj.getWidth() / 2, CENTRO_Y - reloj.getHeight() / 2, null);
         g.drawImage(segundero, CENTRO_X - reloj.getWidth() / 2, CENTRO_Y - reloj.getHeight() / 2, null);
+        g.drawImage(clavo, CENTRO_X - reloj.getWidth() / 2, CENTRO_Y - reloj.getHeight() / 2, null);
     }
 
     @Override
@@ -90,24 +95,4 @@ public class Reloj extends JPanel implements RelojInterface {
     }
 }
 
-//    private BufferedImage dibujarClavo() {
-//        BufferedImage clavo = new BufferedImage(DIAMETRO_RELOJ, DIAMETRO_RELOJ, BufferedImage.TYPE_INT_ARGB);
-//
-//        // Se crea el objeto graphics del buffer
-//        Graphics2D g2 = horario.createGraphics();
-//        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-//
-//        g2.setColor(Color.white);
-//        g2.fillOval(CENTRO_X - 10, CENTRO_Y - 10, 20, 20);
-//        g2.setColor(Color.BLACK);
-//        g2.fillOval(CENTRO_X - 5, CENTRO_Y - 5, 10, 10);
-//
-//        return clavo;
-//    }
-//
-//    private Point calcularCoordenada(float angle, int size) {
-//        int x = (int) (size * Math.cos(Math.toRadians(angle)));
-//        int y = (int) (size * Math.sin(Math.toRadians(angle)));
-//
-//        return new Point(x, y);
-//    }
+
