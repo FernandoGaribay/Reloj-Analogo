@@ -1,14 +1,12 @@
 package reloj;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.*;
-import java.util.Calendar;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import reloj.componentes.RelojBackground;
+import reloj.componentes.RelojMinutero;
 import reloj.componentes.RelojSegundero;
 import reloj.interfaces.RelojInterface;
 
@@ -30,6 +28,7 @@ public class Reloj extends JPanel implements RelojInterface {
 
     private RelojBackground background;
     private RelojSegundero relojSegundero;
+    private RelojMinutero relojMinutero;
 
     public Reloj() {
         TAMANO_SEGUNDOS = 200;
@@ -44,7 +43,7 @@ public class Reloj extends JPanel implements RelojInterface {
                 CENTRO_Y = getHeight() / 2;
 
                 background = new RelojBackground(getWidth());
-                
+
                 repaint();
             }
         });
@@ -57,11 +56,13 @@ public class Reloj extends JPanel implements RelojInterface {
         if (reloj == null) {
             reloj = background.dibujarReloj();
             relojSegundero = new RelojSegundero(this, getWidth(), TAMANO_SEGUNDOS);
+            relojMinutero = new RelojMinutero(this, getWidth(), TAMANO_MINUTOS);
         }
-        
+
         g.drawImage(reloj, CENTRO_X - reloj.getWidth() / 2, CENTRO_Y - reloj.getHeight() / 2, null);
+        g.drawImage(minutero, CENTRO_X - reloj.getWidth() / 2, CENTRO_Y - reloj.getHeight() / 2, null);
         g.drawImage(segundero, CENTRO_X - reloj.getWidth() / 2, CENTRO_Y - reloj.getHeight() / 2, null);
-    } 
+    }
 
     @Override
     public void dibujarSegundero(BufferedImage segundero) {
@@ -69,18 +70,14 @@ public class Reloj extends JPanel implements RelojInterface {
 
         repaint();
     }
+    
+    @Override
+    public void dibujarMinutero(BufferedImage minutero) {
+        this.minutero = minutero;
+
+        repaint();
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 //    private BufferedImage dibujarMinutos() {
 //        int minuto = Calendar.getInstance().get(Calendar.MINUTE);
