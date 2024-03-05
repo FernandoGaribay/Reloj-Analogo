@@ -46,7 +46,7 @@ public class RelojHorario implements Runnable {
 
             // Delay
             try {
-                System.out.println("Horario dibujado");
+//                System.out.println("Horario dibujado");
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(RelojSegundero.class.getName()).log(Level.SEVERE, null, ex);
