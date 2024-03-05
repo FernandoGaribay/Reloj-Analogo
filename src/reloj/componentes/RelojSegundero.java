@@ -7,10 +7,10 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.Calendar;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import reloj.Reloj;
+import reloj.ReproductorMP3;
 
 public class RelojSegundero implements Runnable {
 
@@ -24,6 +24,7 @@ public class RelojSegundero implements Runnable {
     private boolean atomico;
     private long delay;
 
+    private ReproductorMP3 reproductor;
     private BufferedImage segundero;
 
     public RelojSegundero(Reloj RELOJ, int DIAMETRO_RELOJ, int TAMANO_SEGUNDOS) {
@@ -34,7 +35,8 @@ public class RelojSegundero implements Runnable {
         this.CENTRO_X = this.DIAMETRO_RELOJ / 2;
         this.CENTRO_Y = this.DIAMETRO_RELOJ / 2;
 
-        this.setAtomico(true);
+        this.setAtomico(false);
+        this.reproductor = new ReproductorMP3();
         this.hilo = new Thread(this);
         this.hilo.start();
     }
@@ -49,6 +51,10 @@ public class RelojSegundero implements Runnable {
                 Thread.sleep(delay);
             } catch (InterruptedException ex) {
                 Logger.getLogger(RelojSegundero.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                if (!atomico) {
+                    reproductor.reproducirSonido("sonidoSegundero.wav");
+                }
             }
         }
     }
@@ -59,7 +65,7 @@ public class RelojSegundero implements Runnable {
         if (atomico) {
             secondAngle = (float) (((Calendar.getInstance().get(Calendar.SECOND) - 1) * 6) + (Calendar.getInstance().get(Calendar.MILLISECOND) / 166.66667));
         } else {
-            secondAngle = (float) ((Calendar.getInstance().get(Calendar.SECOND) * 6));
+            secondAngle = (float) (((Calendar.getInstance().get(Calendar.SECOND) - 1) * 6));
         }
 
         secondAngle = (secondAngle -= 90) % 360;
