@@ -47,20 +47,15 @@ public class RelojMinutero implements Runnable {
     @Override
     public void run() {
         while (true) {
-            long inicioConteo = System.currentTimeMillis();
-
             this.minutero = dibujarMinutero(this.anguloActual);
             RELOJ.dibujarMinutero(minutero);
 
             this.anguloActual = avanzarAngulo(this.anguloActual);
             this.isAtomico();
-
-            long finConteo = System.currentTimeMillis();
-            milisDiff = finConteo - inicioConteo;
-
+            
             try {
 //                System.out.println("Minutero dibujado");
-                Thread.sleep(delay - milisDiff);
+                Thread.sleep(delay);
             } catch (InterruptedException ex) {
                 Logger.getLogger(RelojSegundero.class.getName()).log(Level.SEVERE, null, ex);
             }

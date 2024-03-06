@@ -35,7 +35,7 @@ public class RelojSegundero implements Runnable {
         this.CENTRO_X = this.DIAMETRO_RELOJ / 2;
         this.CENTRO_Y = this.DIAMETRO_RELOJ / 2;
 
-        this.setAtomico(false);
+        this.setAtomico(true);
         this.reproductor = new ReproductorMP3();
         this.hilo = new Thread(this);
         this.hilo.start();
@@ -65,7 +65,7 @@ public class RelojSegundero implements Runnable {
         if (atomico) {
             secondAngle = (float) (((Calendar.getInstance().get(Calendar.SECOND) - 1) * 6) + (Calendar.getInstance().get(Calendar.MILLISECOND) / 166.66667));
         } else {
-            secondAngle = (float) (((Calendar.getInstance().get(Calendar.SECOND) - 1) * 6));
+            secondAngle = (float) ((Calendar.getInstance().get(Calendar.SECOND) * 6));
         }
 
         secondAngle = (secondAngle -= 90) % 360;

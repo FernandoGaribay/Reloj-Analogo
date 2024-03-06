@@ -20,6 +20,9 @@ public class RelojHorario implements Runnable {
     private final int CENTRO_Y;
 
     private Thread hilo;
+    private float anguloActual;
+    private int delay;
+    private float periodo;
 
     private BufferedImage horario;
 
@@ -32,6 +35,8 @@ public class RelojHorario implements Runnable {
         this.CENTRO_Y = this.DIAMETRO_RELOJ / 2;
 
         this.hilo = new Thread(this);
+        this.anguloActual = calcularAngulo(Calendar.getInstance().get(Calendar.HOUR));
+        this.setAtomico(true);
 
         this.horario = new BufferedImage(DIAMETRO_RELOJ, DIAMETRO_RELOJ, BufferedImage.TYPE_INT_ARGB);
 
@@ -41,31 +46,45 @@ public class RelojHorario implements Runnable {
     @Override
     public void run() {
         while (true) {
-            this.horario = RelojHorario.this.dibujarHorario();
+            this.horario = dibujarHorario(this.anguloActual);
             RELOJ.dibujarHorario(horario);
+
+            this.anguloActual = avanzarAngulo(this.anguloActual);
 
             // Delay
             try {
 //                System.out.println("Horario dibujado");
-                Thread.sleep(1000);
+                System.out.println("antes: " + delay);
+                Thread.sleep(delay);
+                this.isAtomico();
             } catch (InterruptedException ex) {
                 Logger.getLogger(RelojSegundero.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
 
-    public BufferedImage dibujarHorario() {
-        BufferedImage tempHorario = new BufferedImage(DIAMETRO_RELOJ, DIAMETRO_RELOJ, BufferedImage.TYPE_INT_ARGB);
+    public float avanzarAngulo(float anguloActual) {
+        int gradosPorHora = 30;
+        float gradosPorIntervalo = gradosPorHora * periodo;
+        anguloActual += gradosPorIntervalo;
 
-        int horario = Calendar.getInstance().get(Calendar.HOUR);
-//        int horario = 0;
-        float angulo = horario * 30 - 90;
+        if (anguloActual >= 360) {
+            anguloActual -= 360;
+        }
+        return anguloActual;
+    }
+
+    private float calcularAngulo(int hora) {
+        return hora * 30 - 90;
+    }
+
+    public BufferedImage dibujarHorario(float angulo) {
+        BufferedImage tempHorario = new BufferedImage(DIAMETRO_RELOJ, DIAMETRO_RELOJ, BufferedImage.TYPE_INT_ARGB);
 
         // Se crea el objeto graphics del buffer
         Graphics2D g2 = tempHorario.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        Point point = calcularCoordenada(angulo, TAMANO_HORARIO);
         Point[] puntos = calcularPuntos(angulo, TAMANO_HORARIO);
 
         dibujarHorario(g2, puntos);
@@ -109,5 +128,30 @@ public class RelojHorario implements Runnable {
         int y = (int) (tamanio * Math.sin(Math.toRadians(angulo)));
 
         return new Point(x, y);
+    }
+
+    public void setAtomico(boolean atomico) {
+        if (atomico) {
+            this.delay = 180000;
+            this.periodo = 0.05f;
+
+            int min = Calendar.getInstance().get(Calendar.MINUTE);
+            for (int i = 0; i < min / 3; i++) {
+                this.anguloActual = avanzarAngulo(this.anguloActual);
+            }
+        } else {
+            this.periodo = 1.0f;
+            this.delay = 3600000 - (Calendar.getInstance().get(Calendar.MINUTE) * 60000);
+        }
+    }
+
+    public void isAtomico() {
+        if (this.periodo == 0.05f) {
+            this.delay = 180000;
+            this.periodo = 0.05f;
+        } else {
+            this.delay = 3600000;
+            this.periodo = 1.0f;
+        }
     }
 }
