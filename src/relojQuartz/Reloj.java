@@ -35,8 +35,8 @@ public class Reloj extends JPanel implements RelojInterface {
     private RelojHorario relojHorario;
 
     public Reloj(int WIDTH, int HEIGHT, boolean atomico) {
-        TAMANO_SEGUNDOS = 200;
-        TAMANO_MINUTOS = 175;
+        TAMANO_SEGUNDOS = 180;
+        TAMANO_MINUTOS = 160;
         TAMANO_HORAS = 110;
         this.atomico = atomico;
 
