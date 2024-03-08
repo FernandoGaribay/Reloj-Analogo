@@ -1,4 +1,4 @@
-package reloj.componentes;
+package relojQuartz.componentes;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

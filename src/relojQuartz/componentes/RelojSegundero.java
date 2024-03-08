@@ -1,4 +1,4 @@
-package reloj.componentes;
+package relojQuartz.componentes;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import reloj.Reloj;
+import relojQuartz.Reloj;
 import recursos.ReproductorMP3;
 
 public class RelojSegundero implements Runnable {

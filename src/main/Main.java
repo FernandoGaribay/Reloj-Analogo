@@ -1,6 +1,6 @@
 package main;
 
-import reloj.Reloj;
+import relojQuartz.Reloj;
 
 public class Main extends javax.swing.JFrame {
 

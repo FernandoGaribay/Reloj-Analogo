@@ -1,4 +1,4 @@
-package reloj.interfaces;
+package interfaces;
 
 import java.awt.image.BufferedImage;
 

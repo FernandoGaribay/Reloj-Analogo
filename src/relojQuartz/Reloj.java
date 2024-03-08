@@ -1,16 +1,16 @@
-package reloj;
+package relojQuartz;
 
 import java.awt.*;
 import java.awt.image.*;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-import reloj.componentes.RelojBackground;
-import reloj.componentes.RelojClavo;
-import reloj.componentes.RelojHorario;
-import reloj.componentes.RelojMinutero;
-import reloj.componentes.RelojSegundero;
-import reloj.interfaces.RelojInterface;
+import relojQuartz.componentes.RelojBackground;
+import relojQuartz.componentes.RelojClavo;
+import relojQuartz.componentes.RelojHorario;
+import relojQuartz.componentes.RelojMinutero;
+import relojQuartz.componentes.RelojSegundero;
+import interfaces.RelojInterface;
 
 public class Reloj extends JPanel implements RelojInterface {
 

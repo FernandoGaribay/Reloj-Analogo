@@ -1,4 +1,4 @@
-package reloj.componentes;
+package relojQuartz.componentes;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -10,7 +10,7 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import recursos.Calendario;
-import reloj.Reloj;
+import relojQuartz.Reloj;
 
 public class RelojMinutero implements Runnable {
 
