@@ -51,7 +51,7 @@ public class RelojMinutero implements Runnable {
     @Override
     public void run() {
         while (RUNNING) {
-            System.out.println("Minutero corriendo");
+//            System.out.println("Minutero corriendo");
             this.minutero = dibujarMinutero(this.anguloActual);
             RELOJ.dibujarMinutero(minutero);
 

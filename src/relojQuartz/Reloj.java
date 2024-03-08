@@ -103,5 +103,6 @@ public class Reloj extends JPanel implements RelojInterface {
     public void pararReloj() {
         relojSegundero.pararSegundero();
         relojMinutero.pararMinutero();
+        relojHorario.pararHorario();
     }
 }

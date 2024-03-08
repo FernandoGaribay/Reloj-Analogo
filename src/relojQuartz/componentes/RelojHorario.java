@@ -51,13 +51,13 @@ public class RelojHorario implements Runnable {
     @Override
     public void run() {
         while (RUNNING) {
-            System.out.println("Horario corriendo");
+//            System.out.println("Horario corriendo");
             this.horario = dibujarHorario(this.anguloActual);
             RELOJ.dibujarHorario(horario);
 
             this.anguloActual = avanzarAngulo(this.anguloActual);
             try {
-                System.out.println("delay: " + delay);
+//                System.out.println("delay: " + delay);
                 Thread.sleep(delay);
                 this.isAtomico();
             } catch (InterruptedException ex) {

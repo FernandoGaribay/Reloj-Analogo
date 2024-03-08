@@ -47,7 +47,7 @@ public class RelojSegundero implements Runnable {
     @Override
     public void run() {
         while (RUNNING) {
-            System.out.println("Segundero corriendo");
+//            System.out.println("Segundero corriendo");
             this.segundero = dibujarSegundero(calcularAngulo(atomico));
             RELOJ.dibujarSegundero(segundero);
 
@@ -58,6 +58,8 @@ public class RelojSegundero implements Runnable {
             } finally {
                 if (!atomico && reproductor != null) {
                     reproductor.reproducirSonido("sonidoSegundero.wav");
+                } else if(atomico && reproductor != null){
+                    reproductor.reproducirSonido("sonidoAtomico.wav");
                 }
             }
         }
@@ -143,6 +145,7 @@ public class RelojSegundero implements Runnable {
     }
 
     public void pararSegundero() {
+        reproductor.pararSonido();
         reproductor = null;
         RUNNING = false;
     }
