@@ -15,6 +15,7 @@ import reloj.Reloj;
 public class RelojMinutero implements Runnable {
 
     private final Reloj RELOJ;
+    private boolean RUNNING;
     private final Calendario objCalendario;
     private final int DIAMETRO_RELOJ;
     private final int TAMANO_MINUTOS;
@@ -26,11 +27,11 @@ public class RelojMinutero implements Runnable {
     private int delay;
     private float periodo;
 
-    private long milisDiff;
     private BufferedImage minutero;
 
-    public RelojMinutero(Reloj RELOJ, int DIAMETRO_RELOJ, int TAMANO_MINUTOS) {
+    public RelojMinutero(Reloj RELOJ, int DIAMETRO_RELOJ, int TAMANO_MINUTOS, boolean atomico) {
         this.RELOJ = RELOJ;
+        this.RUNNING = true;
         this.objCalendario = new Calendario(4);
         this.DIAMETRO_RELOJ = DIAMETRO_RELOJ;
         this.TAMANO_MINUTOS = TAMANO_MINUTOS;
@@ -40,7 +41,7 @@ public class RelojMinutero implements Runnable {
 
         this.hilo = new Thread(this);
         this.anguloActual = calcularAngulo(Calendar.getInstance().get(Calendar.MINUTE));
-        this.setAtomico(true);
+        this.setAtomico(atomico);
 
         this.minutero = new BufferedImage(DIAMETRO_RELOJ, DIAMETRO_RELOJ, BufferedImage.TYPE_INT_ARGB);
 
@@ -49,15 +50,15 @@ public class RelojMinutero implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        while (RUNNING) {
+            System.out.println("Minutero corriendo");
             this.minutero = dibujarMinutero(this.anguloActual);
             RELOJ.dibujarMinutero(minutero);
 
             this.anguloActual = avanzarAngulo(this.anguloActual);
             this.isAtomico();
-            
+
             try {
-//                System.out.println("Minutero dibujado");
                 Thread.sleep(delay);
             } catch (InterruptedException ex) {
                 Logger.getLogger(RelojSegundero.class.getName()).log(Level.SEVERE, null, ex);
@@ -150,6 +151,10 @@ public class RelojMinutero implements Runnable {
                 this.delay = 60000 - (Calendar.getInstance().get(Calendar.SECOND) * 1000);
             }
         }
+    }
+
+    public void pararMinutero() {
+        RUNNING = false;
     }
 
     public void isAtomico() {

@@ -6,16 +6,21 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ReproductorMP3 {
 
+    private AudioInputStream audioInputStream;
+    private Clip clip;
+
     public void reproducirSonido(String nombreSonido) {
-        AudioInputStream audioInputStream = null;
+        audioInputStream = null;
         try {
             ClassLoader classLoader = getClass().getClassLoader();
             audioInputStream = AudioSystem.getAudioInputStream(classLoader.getResource("recursos/" + nombreSonido));
 
-            Clip clip = AudioSystem.getClip();
+            clip = AudioSystem.getClip();
             clip.open(audioInputStream);
 
             clip.start();
@@ -34,6 +39,15 @@ public class ReproductorMP3 {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    public void pararSonido() {
+        try {
+            clip.close();
+            audioInputStream.close();
+        } catch (IOException ex) {
+            Logger.getLogger(ReproductorMP3.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

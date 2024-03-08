@@ -15,6 +15,7 @@ import reloj.Reloj;
 public class RelojHorario implements Runnable {
 
     private final Reloj RELOJ;
+    private boolean RUNNING;
     private final Calendario objCalendario;
     private final int DIAMETRO_RELOJ;
     private final int TAMANO_HORARIO;
@@ -28,8 +29,9 @@ public class RelojHorario implements Runnable {
 
     private BufferedImage horario;
 
-    public RelojHorario(Reloj RELOJ, int DIAMETRO_RELOJ, int TAMANO_HORARIO) {
+    public RelojHorario(Reloj RELOJ, int DIAMETRO_RELOJ, int TAMANO_HORARIO, boolean atomico) {
         this.RELOJ = RELOJ;
+        this.RUNNING = true;
         this.objCalendario = new Calendario(4);
         this.DIAMETRO_RELOJ = DIAMETRO_RELOJ;
         this.TAMANO_HORARIO = TAMANO_HORARIO;
@@ -39,7 +41,7 @@ public class RelojHorario implements Runnable {
 
         this.hilo = new Thread(this);
         this.anguloActual = calcularAngulo(Calendar.getInstance().get(Calendar.HOUR));
-        this.setAtomico(true);
+        this.setAtomico(atomico);
 
         this.horario = new BufferedImage(DIAMETRO_RELOJ, DIAMETRO_RELOJ, BufferedImage.TYPE_INT_ARGB);
 
@@ -49,15 +51,13 @@ public class RelojHorario implements Runnable {
     @Override
     public void run() {
         while (true) {
+            System.out.println("Horario corriendo");
             this.horario = dibujarHorario(this.anguloActual);
             RELOJ.dibujarHorario(horario);
 
             this.anguloActual = avanzarAngulo(this.anguloActual);
 
-            // Delay
             try {
-//                System.out.println("Horario dibujado");
-                System.out.println("antes: " + delay);
                 Thread.sleep(delay);
                 this.isAtomico();
             } catch (InterruptedException ex) {
@@ -146,6 +146,10 @@ public class RelojHorario implements Runnable {
             this.periodo = 1.0f;
             this.delay = 3600000 - (Calendar.getInstance().get(Calendar.MINUTE) * 60000);
         }
+    }
+
+    public void pararHorario() {
+        RUNNING = false;
     }
 
     public void isAtomico() {

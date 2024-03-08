@@ -9,14 +9,13 @@ import java.awt.image.BufferedImage;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import recursos.Calendario;
 import reloj.Reloj;
 import recursos.ReproductorMP3;
 
 public class RelojSegundero implements Runnable {
 
     private final Reloj RELOJ;
-    private final Calendario objCalendario;
+    private boolean RUNNING;
     private final int DIAMETRO_RELOJ;
     private final int TAMANO_SEGUNDOS;
     private final int CENTRO_X;
@@ -29,24 +28,26 @@ public class RelojSegundero implements Runnable {
     private ReproductorMP3 reproductor;
     private BufferedImage segundero;
 
-    public RelojSegundero(Reloj RELOJ, int DIAMETRO_RELOJ, int TAMANO_SEGUNDOS) {
+    public RelojSegundero(Reloj RELOJ, int DIAMETRO_RELOJ, int TAMANO_SEGUNDOS, boolean atomico) {
         this.RELOJ = RELOJ;
-        this.objCalendario = new Calendario(4);
+        this.RUNNING = true;
         this.DIAMETRO_RELOJ = DIAMETRO_RELOJ;
         this.TAMANO_SEGUNDOS = TAMANO_SEGUNDOS;
 
         this.CENTRO_X = this.DIAMETRO_RELOJ / 2;
         this.CENTRO_Y = this.DIAMETRO_RELOJ / 2;
 
-        this.setAtomico(true);
         this.reproductor = new ReproductorMP3();
         this.hilo = new Thread(this);
+        this.setAtomico(atomico);
+
         this.hilo.start();
     }
 
     @Override
     public void run() {
-        while (true) {
+        while (RUNNING) {
+            System.out.println("Segundero corriendo");
             this.segundero = dibujarSegundero(calcularAngulo(atomico));
             RELOJ.dibujarSegundero(segundero);
 
@@ -55,7 +56,7 @@ public class RelojSegundero implements Runnable {
             } catch (InterruptedException ex) {
                 Logger.getLogger(RelojSegundero.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
-                if (!atomico) {
+                if (!atomico && reproductor != null) {
                     reproductor.reproducirSonido("sonidoSegundero.wav");
                 }
             }
@@ -139,6 +140,11 @@ public class RelojSegundero implements Runnable {
         int y = (int) (tamanio * Math.sin(Math.toRadians(angulo)));
 
         return new Point(x, y);
+    }
+
+    public void pararSegundero() {
+        reproductor = null;
+        RUNNING = false;
     }
 
     public void setAtomico(boolean atomico) {

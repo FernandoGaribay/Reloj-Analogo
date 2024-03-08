@@ -21,7 +21,7 @@ public class Reloj extends JPanel implements RelojInterface {
     private int CENTRO_X;
     private int CENTRO_Y;
 
-    private Timer timer;
+    private boolean atomico;
     private BufferedImage reloj;
     private BufferedImage segundero;
     private BufferedImage minutero;
@@ -34,14 +34,18 @@ public class Reloj extends JPanel implements RelojInterface {
     private RelojMinutero relojMinutero;
     private RelojHorario relojHorario;
 
-    public Reloj() {
+    public Reloj(int WIDTH, int HEIGHT, boolean atomico) {
         TAMANO_SEGUNDOS = 200;
         TAMANO_MINUTOS = 175;
         TAMANO_HORAS = 110;
+        this.atomico = atomico;
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
+                setSize(new Dimension(WIDTH, HEIGHT));
+                setBackground(Color.white);
+                
                 DIAMETRO_RELOJ = getWidth();
                 CENTRO_X = getWidth() / 2;
                 CENTRO_Y = getHeight() / 2;
@@ -61,9 +65,9 @@ public class Reloj extends JPanel implements RelojInterface {
         if (reloj == null) {
             reloj = relojBackground.dibujarReloj();
             clavo = relojClavo.dibujarClavo();
-            relojSegundero = new RelojSegundero(this, getWidth(), TAMANO_SEGUNDOS);
-            relojMinutero = new RelojMinutero(this, getWidth(), TAMANO_MINUTOS);
-            relojHorario = new RelojHorario(this, getWidth(), TAMANO_HORAS);
+            relojSegundero = new RelojSegundero(this, getWidth(), TAMANO_SEGUNDOS, atomico);
+            relojMinutero = new RelojMinutero(this, getWidth(), TAMANO_MINUTOS, atomico);
+            relojHorario = new RelojHorario(this, getWidth(), TAMANO_HORAS, atomico);
         }
 
         g.drawImage(reloj, CENTRO_X - reloj.getWidth() / 2, CENTRO_Y - reloj.getHeight() / 2, null);
@@ -79,20 +83,23 @@ public class Reloj extends JPanel implements RelojInterface {
 
         repaint();
     }
-    
+
     @Override
     public void dibujarMinutero(BufferedImage minutero) {
         this.minutero = minutero;
 
         repaint();
     }
-    
+
     @Override
     public void dibujarHorario(BufferedImage horario) {
         this.horario = horario;
 
         repaint();
     }
+    
+    public void pararReloj(){
+        relojSegundero.pararSegundero();
+        relojMinutero.pararMinutero();
+    }
 }
-
-
