@@ -15,15 +15,29 @@ public class Calendario implements Runnable {
     private static int segundo;
     private static int milisegundo;
 
-    public Calendario(int multiplicador) {
+    public Calendario() {
         this.hilo = new Thread(this);
-        this.multiplicador = multiplicador;
         this.delay = 1000;
+        this.multiplicador = 1;
 
         this.hora = Calendar.getInstance().get(Calendar.HOUR);
         this.minuto = Calendar.getInstance().get(Calendar.MINUTE);
         this.segundo = Calendar.getInstance().get(Calendar.SECOND);
         this.milisegundo = Calendar.getInstance().get(Calendar.MILLISECOND);
+    }
+
+    public Calendario(int multiplicador) {
+        this();
+        this.multiplicador = multiplicador;
+
+        this.hilo.start();
+    }
+
+    public Calendario(int hora, int minuto, int segundo) {
+        this();
+        this.hora = hora;
+        this.minuto = minuto;
+        this.segundo = segundo;
 
         this.hilo.start();
     }
@@ -31,7 +45,11 @@ public class Calendario implements Runnable {
     @Override
     public void run() {
         while (true) {
-            this.delay = 1000 / multiplicador;
+            this.milisegundo += 10;
+            if (this.milisegundo >= 1000) {
+                this.milisegundo %= 1000;
+                this.segundo++;
+            }
 
             // Actualizar hora, minuto y segundo
             if (segundo == 59) {
@@ -42,20 +60,12 @@ public class Calendario implements Runnable {
                 this.hora++;
                 this.minuto = 0;
             }
-            if (hora == 12 && minuto == 59 && segundo == 59) {
+            if (hora == 12) {
                 this.hora = 0;
-            } else {
-                this.segundo++;
-            }
-
-            // Actualizar milisegundo
-            this.milisegundo += delay % 1000;
-            if (this.milisegundo >= 1000) {
-                this.milisegundo %= 1000;
             }
 
             try {
-                Thread.sleep(delay);
+                Thread.sleep(10);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Calendario.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -86,7 +96,7 @@ public class Calendario implements Runnable {
     }
 
     public static void main(String[] args) {
-        Calendario calendario = new Calendario(10);
+        Calendario calendario = new Calendario(10,58,0);
 
         while (true) {
             System.out.println("Hora: " + calendario.getHora());
@@ -96,10 +106,43 @@ public class Calendario implements Runnable {
             System.out.println("");
 
             try {
-                Thread.sleep(100);
+                Thread.sleep(1000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Calendario.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
 }
+
+/*
+
+            this.delay = 1000 / multiplicador;
+
+            // Actualizar hora, minuto y segundo
+            if (segundo == 59) {
+                this.minuto++;
+                this.segundo = 0;
+            }
+            if (minuto == 59) {
+                this.hora++;
+                this.minuto = 0;
+            }
+            if (hora == 12 && minuto == 59 && segundo == 59) {
+                this.hora = 0;
+            } else {
+                this.segundo++;
+            }
+
+            // Actualizar milisegundo
+            this.milisegundo += delay % 1000;
+            if (this.milisegundo >= 1000) {
+                this.milisegundo %= 1000;
+            }
+
+            try {
+                Thread.sleep(delay);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Calendario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+ */

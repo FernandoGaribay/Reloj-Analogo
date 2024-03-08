@@ -11,6 +11,7 @@ import relojQuartz.componentes.RelojHorario;
 import relojQuartz.componentes.RelojMinutero;
 import relojQuartz.componentes.RelojSegundero;
 import interfaces.RelojInterface;
+import recursos.Calendario;
 
 public class Reloj extends JPanel implements RelojInterface {
 
@@ -20,7 +21,7 @@ public class Reloj extends JPanel implements RelojInterface {
     private int DIAMETRO_RELOJ;
     private int CENTRO_X;
     private int CENTRO_Y;
-
+    private Calendario objCalendario;
     private boolean atomico;
     private BufferedImage reloj;
     private BufferedImage segundero;
@@ -38,6 +39,7 @@ public class Reloj extends JPanel implements RelojInterface {
         TAMANO_SEGUNDOS = 180;
         TAMANO_MINUTOS = 160;
         TAMANO_HORAS = 110;
+        this.objCalendario = new Calendario(10, 58, 30);
         this.atomico = atomico;
 
         SwingUtilities.invokeLater(new Runnable() {
@@ -45,7 +47,7 @@ public class Reloj extends JPanel implements RelojInterface {
             public void run() {
                 setSize(new Dimension(WIDTH, HEIGHT));
                 setBackground(Color.white);
-                
+
                 DIAMETRO_RELOJ = getWidth();
                 CENTRO_X = getWidth() / 2;
                 CENTRO_Y = getHeight() / 2;
@@ -66,7 +68,7 @@ public class Reloj extends JPanel implements RelojInterface {
             reloj = relojBackground.dibujarReloj();
             clavo = relojClavo.dibujarClavo();
             relojSegundero = new RelojSegundero(this, getWidth(), TAMANO_SEGUNDOS, atomico);
-            relojMinutero = new RelojMinutero(this, getWidth(), TAMANO_MINUTOS, atomico);
+            relojMinutero = new RelojMinutero(this, getWidth(), TAMANO_MINUTOS, objCalendario, atomico);
             relojHorario = new RelojHorario(this, getWidth(), TAMANO_HORAS, atomico);
         }
 
@@ -97,8 +99,8 @@ public class Reloj extends JPanel implements RelojInterface {
 
         repaint();
     }
-    
-    public void pararReloj(){
+
+    public void pararReloj() {
         relojSegundero.pararSegundero();
         relojMinutero.pararMinutero();
     }

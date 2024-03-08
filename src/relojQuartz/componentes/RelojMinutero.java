@@ -16,7 +16,7 @@ public class RelojMinutero implements Runnable {
 
     private final Reloj RELOJ;
     private boolean RUNNING;
-    private final Calendario objCalendario;
+    private Calendario objCalendario;
     private final int DIAMETRO_RELOJ;
     private final int TAMANO_MINUTOS;
     private final int CENTRO_X;
@@ -29,10 +29,10 @@ public class RelojMinutero implements Runnable {
 
     private BufferedImage minutero;
 
-    public RelojMinutero(Reloj RELOJ, int DIAMETRO_RELOJ, int TAMANO_MINUTOS, boolean atomico) {
+    public RelojMinutero(Reloj RELOJ, int DIAMETRO_RELOJ, int TAMANO_MINUTOS, Calendario objCalendario ,boolean atomico) {
         this.RELOJ = RELOJ;
         this.RUNNING = true;
-        this.objCalendario = new Calendario(4);
+        this.objCalendario = objCalendario;
         this.DIAMETRO_RELOJ = DIAMETRO_RELOJ;
         this.TAMANO_MINUTOS = TAMANO_MINUTOS;
 
@@ -56,10 +56,9 @@ public class RelojMinutero implements Runnable {
             RELOJ.dibujarMinutero(minutero);
 
             this.anguloActual = avanzarAngulo(this.anguloActual);
-            this.isAtomico();
-
             try {
                 Thread.sleep(delay);
+                this.isAtomico();
             } catch (InterruptedException ex) {
                 Logger.getLogger(RelojSegundero.class.getName()).log(Level.SEVERE, null, ex);
             }
