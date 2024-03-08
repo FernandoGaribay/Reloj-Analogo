@@ -9,7 +9,7 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.image.BufferedImage;
-import reloj.Sombra;
+import recursos.Sombra;
 
 public class RelojBackground {
 

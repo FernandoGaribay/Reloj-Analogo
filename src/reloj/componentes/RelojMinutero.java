@@ -9,11 +9,13 @@ import java.awt.image.BufferedImage;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import recursos.Calendario;
 import reloj.Reloj;
 
 public class RelojMinutero implements Runnable {
 
     private final Reloj RELOJ;
+    private final Calendario objCalendario;
     private final int DIAMETRO_RELOJ;
     private final int TAMANO_MINUTOS;
     private final int CENTRO_X;
@@ -29,6 +31,7 @@ public class RelojMinutero implements Runnable {
 
     public RelojMinutero(Reloj RELOJ, int DIAMETRO_RELOJ, int TAMANO_MINUTOS) {
         this.RELOJ = RELOJ;
+        this.objCalendario = new Calendario(4);
         this.DIAMETRO_RELOJ = DIAMETRO_RELOJ;
         this.TAMANO_MINUTOS = TAMANO_MINUTOS;
 
