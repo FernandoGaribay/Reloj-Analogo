@@ -1,4 +1,4 @@
-package relojQuartz;
+package relojOnDisplay;
 
 import java.awt.*;
 import java.awt.image.*;
@@ -11,8 +11,14 @@ import relojQuartz.componentes.RelojMinutero;
 import relojQuartz.componentes.RelojSegundero;
 import interfaces.RelojInterface;
 import recursos.Calendario;
+import relojOnDisplay.componentes.RelojOnDisplayBackground;
+import relojOnDisplay.componentes.RelojOnDisplayClavo;
+import relojOnDisplay.componentes.RelojOnDisplayHorario;
+import relojOnDisplay.componentes.RelojOnDisplayMinutero;
+import relojOnDisplay.componentes.RelojOnDisplaySegundero;
+import relojOnDisplay.componentes.RelojOnDisplayHora;
 
-public class Reloj extends JPanel implements RelojInterface {
+public class RelojOnDisplay extends JPanel implements RelojInterface {
 
     private int TAMANO_SEGUNDOS;
     private int TAMANO_MINUTOS;
@@ -27,16 +33,18 @@ public class Reloj extends JPanel implements RelojInterface {
     private BufferedImage minutero;
     private BufferedImage horario;
     private BufferedImage clavo;
+    private BufferedImage hora;
 
-    private RelojBackground relojBackground;
-    private RelojClavo relojClavo;
-    private RelojSegundero relojSegundero;
-    private RelojMinutero relojMinutero;
-    private RelojHorario relojHorario;
+    private RelojOnDisplayBackground relojBackground;
+    private RelojOnDisplayClavo relojClavo;
+    private RelojOnDisplayHora relojHora;
+    private RelojOnDisplaySegundero relojSegundero;
+    private RelojOnDisplayMinutero relojMinutero;
+    private RelojOnDisplayHorario relojHorario;
 
-    public Reloj(int WIDTH, int HEIGHT, boolean atomico) {
-        TAMANO_SEGUNDOS = 180;
-        TAMANO_MINUTOS = 160;
+    public RelojOnDisplay(int WIDTH, int HEIGHT, boolean atomico) {
+        TAMANO_SEGUNDOS = 150;
+        TAMANO_MINUTOS = 130;
         TAMANO_HORAS = 110;
         this.objCalendario = new Calendario(10, 58, 30);
         this.atomico = atomico;
@@ -51,9 +59,9 @@ public class Reloj extends JPanel implements RelojInterface {
                 CENTRO_X = getWidth() / 2;
                 CENTRO_Y = getHeight() / 2;
 
-                relojBackground = new RelojBackground(getWidth());
-                relojClavo = new RelojClavo(getWidth());
-
+                relojBackground = new RelojOnDisplayBackground(getWidth());
+                relojClavo = new RelojOnDisplayClavo(getWidth());
+                setBackground(Color.BLACK);
                 repaint();
             }
         });
@@ -66,14 +74,16 @@ public class Reloj extends JPanel implements RelojInterface {
         if (reloj == null) {
             reloj = relojBackground.dibujarReloj();
             clavo = relojClavo.dibujarClavo();
-            relojSegundero = new RelojSegundero(this, getWidth(), TAMANO_SEGUNDOS, atomico);
-            relojMinutero = new RelojMinutero(this, getWidth(), TAMANO_MINUTOS, objCalendario, atomico);
-            relojHorario = new RelojHorario(this, getWidth(), TAMANO_HORAS, atomico);
+            relojSegundero = new RelojOnDisplaySegundero(this, getWidth(), TAMANO_SEGUNDOS, atomico);
+            relojHora = new RelojOnDisplayHora(this, getWidth());
+            relojMinutero = new RelojOnDisplayMinutero(this, getWidth(), TAMANO_MINUTOS, objCalendario, atomico);
+            relojHorario = new RelojOnDisplayHorario(this, getWidth(), TAMANO_HORAS, atomico);
         }
 
         g.drawImage(reloj, CENTRO_X - reloj.getWidth() / 2, CENTRO_Y - reloj.getHeight() / 2, null);
         g.drawImage(horario, CENTRO_X - reloj.getWidth() / 2, CENTRO_Y - reloj.getHeight() / 2, null);
         g.drawImage(minutero, CENTRO_X - reloj.getWidth() / 2, CENTRO_Y - reloj.getHeight() / 2, null);
+        g.drawImage(hora, CENTRO_X - reloj.getWidth() / 2, CENTRO_Y - reloj.getHeight() / 2, null);
         g.drawImage(segundero, CENTRO_X - reloj.getWidth() / 2, CENTRO_Y - reloj.getHeight() / 2, null);
         g.drawImage(clavo, CENTRO_X - reloj.getWidth() / 2, CENTRO_Y - reloj.getHeight() / 2, null);
     }
@@ -101,12 +111,15 @@ public class Reloj extends JPanel implements RelojInterface {
 
     @Override
     public void dibujarHora(BufferedImage hora) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.hora = hora;
+
+        repaint();
     }
-    
+
     public void pararReloj() {
         relojSegundero.pararSegundero();
         relojMinutero.pararMinutero();
         relojHorario.pararHorario();
+        relojHora.pararHora();
     }
 }

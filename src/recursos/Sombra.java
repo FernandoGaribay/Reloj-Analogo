@@ -11,7 +11,7 @@ public class Sombra {
     private static int x;
     private static int y;
 
-    public static BufferedImage agregarSombra(BufferedImage imagenOriginal, int distancia, float transparencia) {
+    public static BufferedImage agregarSombra(BufferedImage imagenOriginal, int distancia, float transparencia, Color color) {
         int anchoImagen = imagenOriginal.getWidth();
         int altoImagen = imagenOriginal.getHeight();
 
@@ -30,7 +30,7 @@ public class Sombra {
             int x = anchoImagen / 2;
             int y = altoImagen / 2;
             
-            g2.setColor(new Color(0, 0, 0, alpha));
+            g2.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(),alpha));
             g2.fillOval(x - diametro / 2, y - diametro / 2, diametro, diametro);
         }
 

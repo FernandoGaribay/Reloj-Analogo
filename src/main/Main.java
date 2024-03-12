@@ -1,15 +1,17 @@
 package main;
 
+import javax.swing.JFrame;
 import relojQuartz.Reloj;
+import relojOnDisplay.RelojOnDisplay;
 
-public class Main extends javax.swing.JFrame {
+public class Main extends JFrame {
 
-    Reloj objReloj;
+    RelojOnDisplay objReloj;
     
     public Main() {
         initComponents();
         
-        objReloj = new Reloj(450, 450, false);
+        objReloj = new RelojOnDisplay(500, 500, false);
         pnlContenedor.add(objReloj);
         pnlContenedor.revalidate();
         pnlContenedor.repaint();
@@ -27,6 +29,8 @@ public class Main extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAutoRequestFocus(false);
         setBackground(new java.awt.Color(255, 255, 255));
+        setMaximumSize(new java.awt.Dimension(500, 560));
+        setMinimumSize(new java.awt.Dimension(500, 560));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -50,9 +54,9 @@ public class Main extends javax.swing.JFrame {
 
         pnlContenedor.setBackground(new java.awt.Color(255, 255, 255));
         pnlContenedor.setLayout(null);
-        background.add(pnlContenedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 20, 450, 450));
+        background.add(pnlContenedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 500));
 
-        getContentPane().add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 500, 490));
+        getContentPane().add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 500, 500));
 
         pack();
         setLocationRelativeTo(null);
@@ -61,7 +65,7 @@ public class Main extends javax.swing.JFrame {
     private void toggleAtomicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleAtomicoActionPerformed
         pnlContenedor.removeAll();
         objReloj.pararReloj();
-        objReloj = new Reloj(450, 450, toggleAtomico.isSelected());
+        objReloj = new RelojOnDisplay(500, 500, toggleAtomico.isSelected());
         pnlContenedor.add(objReloj);
         pnlContenedor.revalidate();
         pnlContenedor.repaint();

@@ -1,0 +1,172 @@
+package relojOnDisplay.componentes;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import recursos.Calendario;
+import relojOnDisplay.RelojOnDisplay;
+import relojQuartz.componentes.RelojSegundero;
+
+public class RelojOnDisplayMinutero implements Runnable {
+
+    private final RelojOnDisplay RELOJ;
+    private boolean RUNNING;
+    private Calendario objCalendario;
+    private final int DIAMETRO_RELOJ;
+    private final int TAMANO_MINUTOS;
+    private final int CENTRO_X;
+    private final int CENTRO_Y;
+
+    private Thread hilo;
+    private float anguloActual;
+    private int delay;
+    private float periodo;
+
+    private BufferedImage minutero;
+
+    public RelojOnDisplayMinutero(RelojOnDisplay RELOJ, int DIAMETRO_RELOJ, int TAMANO_MINUTOS, Calendario objCalendario, boolean atomico) {
+        this.RELOJ = RELOJ;
+        this.RUNNING = true;
+        this.objCalendario = objCalendario;
+        this.DIAMETRO_RELOJ = DIAMETRO_RELOJ;
+        this.TAMANO_MINUTOS = TAMANO_MINUTOS;
+
+        this.CENTRO_X = this.DIAMETRO_RELOJ / 2;
+        this.CENTRO_Y = this.DIAMETRO_RELOJ / 2 - 30;
+
+        this.hilo = new Thread(this);
+        this.anguloActual = calcularAngulo(Calendar.getInstance().get(Calendar.MINUTE));
+        this.setAtomico(atomico);
+
+        this.minutero = new BufferedImage(DIAMETRO_RELOJ, DIAMETRO_RELOJ, BufferedImage.TYPE_INT_ARGB);
+
+        this.hilo.start();
+    }
+
+    @Override
+    public void run() {
+        while (RUNNING) {
+//            System.out.println("Minutero corriendo");
+            this.minutero = dibujarMinutero(this.anguloActual);
+            RELOJ.dibujarMinutero(minutero);
+
+            this.anguloActual = avanzarAngulo(this.anguloActual);
+            try {
+                Thread.sleep(delay);
+                this.isAtomico();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(RelojSegundero.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public float avanzarAngulo(float anguloActual) {
+        int gradosPorMinuto = 6;
+        float gradosPorIntervalo = gradosPorMinuto * periodo; // avanzar 0.6 grados cada 100 ms
+        anguloActual += gradosPorIntervalo;
+
+        if (anguloActual >= 360) {
+            anguloActual -= 360;
+        }
+        return anguloActual;
+    }
+
+    public BufferedImage dibujarMinutero(float angulo) {
+        BufferedImage tempMinutero = new BufferedImage(DIAMETRO_RELOJ, DIAMETRO_RELOJ, BufferedImage.TYPE_INT_ARGB);
+
+        // Se crea el objeto graphics del buffer
+        Graphics2D g2 = tempMinutero.createGraphics();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setStroke(new BasicStroke(6));
+
+        Point punto = calcularCoordenada(angulo, TAMANO_MINUTOS);
+        g2.drawLine(CENTRO_X, CENTRO_Y, CENTRO_X + punto.x, CENTRO_Y + punto.y);
+
+        Point[] puntos = calcularPuntos(angulo, TAMANO_MINUTOS);
+
+        dibujarMinutero(g2, puntos);
+        g2.dispose();
+        return tempMinutero;
+    }
+
+    private float calcularAngulo(int minuto) {
+        return minuto * 6 - 90;
+    }
+
+    private void dibujarMinutero(Graphics2D g2, Point[] puntos) {
+        g2.setColor(new Color(255, 255, 255));
+        g2.setStroke(new BasicStroke(2));
+
+        int[] xPuntos = {CENTRO_X + puntos[0].x,
+            CENTRO_X + puntos[1].x,
+            CENTRO_X + puntos[2].x,
+            CENTRO_X + puntos[3].x,};
+        int[] yPuntos = {CENTRO_Y + puntos[0].y,
+            CENTRO_Y + puntos[1].y,
+            CENTRO_Y + puntos[2].y,
+            CENTRO_Y + puntos[3].y,};
+
+//        g2.setStroke(new BasicStroke(1));
+//        g2.drawLine(CENTRO_X, CENTRO_Y, xPuntos[0], yPuntos[0]);
+//        g2.drawLine(CENTRO_X, CENTRO_Y, xPuntos[1], yPuntos[1]);
+//        g2.drawLine(CENTRO_X, CENTRO_Y, xPuntos[2], yPuntos[2]);
+//        g2.drawLine(CENTRO_X, CENTRO_Y, xPuntos[3], yPuntos[3]);
+        g2.fillPolygon(xPuntos, yPuntos, 4);
+    }
+
+    private Point[] calcularPuntos(float angulo, int tamanio) {
+        Point punto0Cola = calcularCoordenada(angulo, (int) (tamanio * 1));
+        Point punto1Cola = calcularCoordenada(angulo + 110, (int) (tamanio * 0.095));
+        Point punto2Cola = calcularCoordenada(angulo + 180, (int) (tamanio * 0.22));
+        Point punto3Cola = calcularCoordenada(angulo - 110, (int) (tamanio * 0.095));
+
+        return new Point[]{punto0Cola, punto1Cola, punto2Cola, punto3Cola};
+    }
+
+    private Point calcularCoordenada(float angulo, int tamanio) {
+        int x = (int) (tamanio * Math.cos(Math.toRadians(angulo)));
+        int y = (int) (tamanio * Math.sin(Math.toRadians(angulo)));
+
+        return new Point(x, y);
+    }
+
+    public void setAtomico(boolean atomico) {
+        if (atomico) {
+            this.delay = 3000;
+            this.periodo = 0.05f;
+
+            int seg = Calendar.getInstance().get(Calendar.SECOND);
+            for (int i = 0; i < seg / 3; i++) {
+                this.anguloActual = avanzarAngulo(this.anguloActual);
+            }
+        } else {
+            this.periodo = 1.0f;
+
+            if (Calendar.getInstance().get(Calendar.SECOND) == 0) {
+                this.delay = 60000;
+            } else {
+                this.delay = 60000 - (Calendar.getInstance().get(Calendar.SECOND) * 1000);
+            }
+        }
+    }
+
+    public void pararMinutero() {
+        RUNNING = false;
+    }
+
+    public void isAtomico() {
+        if (this.periodo == 0.05f) {
+            this.delay = 3000;
+            this.periodo = 0.05f;
+        } else {
+            this.delay = 60000;
+            this.periodo = 1.0f;
+        }
+    }
+}

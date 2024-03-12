@@ -51,11 +51,11 @@ public class RelojBackground {
 
         // Primer circulo del reloj
         BufferedImage circulo1 = crearCirculo(Color.WHITE, DIAMETRO_RELOJ);
-        circulo1 = Sombra.agregarSombra(circulo1, 20, 0.05f);
+        circulo1 = Sombra.agregarSombra(circulo1, 20, 0.05f, Color.BLACK);
 
         // Segundo circulo del reloj
         BufferedImage circulo2 = crearCirculo(Color.WHITE, (int) (DIAMETRO_RELOJ * 0.7));
-        circulo2 = Sombra.agregarSombra(circulo2, 20, 0.025f);
+        circulo2 = Sombra.agregarSombra(circulo2, 20, 0.025f, Color.BLACK);
 
         // Dibujamos en el Buffer
         g2.setColor(Color.black);
