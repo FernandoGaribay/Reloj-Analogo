@@ -45,14 +45,14 @@ public class RelojOnDisplayBackground {
         g2.setColor(Color.black);
 
         // Dibujamos en el Buffer
-        g2.drawImage(crearEspiralDeCirculos(0.02f, 0.0f, 20, 28, 0, Color.BLUE), 0, 0, null);
-        g2.drawImage(crearEspiralDeCirculos(0.022f, 0.0f, 20, 40, 3, Color.BLUE), 0, 0, null);
-        g2.drawImage(crearEspiralDeCirculos(0.025f, 0.0f, 24, 52, 6, Color.BLUE), 0, 0, null);
-        g2.drawImage(crearEspiralDeCirculos(0.027f, 0.0f, 24, 67, 9, Color.BLUE), 0, 0, null);
-        g2.drawImage(crearEspiralDeCirculos(0.029f, 0.00045f, 36, 85, 12, Color.BLUE), 0, 0, null);
-        g2.drawImage(crearEspiralDeCirculos(0.035f, 0.0007f, 36, 108, 15, Color.BLUE), 0, 0, null);
-        g2.drawImage(crearEspiralDeCirculos(0.028f, 0.00145f, 36, 133, 4, Color.BLUE), 0, 0, null);
-        g2.drawImage(crearEspiralDeCirculos(0.028f, 0.0017f, 36, 160, 0, Color.BLUE), 0, 0, null);
+        g2.drawImage(crearEspiralDeCirculos(0.02f, 0.0f, 20, 25, 24, Color.BLUE), 0, 0, null);
+        g2.drawImage(crearEspiralDeCirculos(0.022f, 0.0016f, 20, 39, 18, Color.BLUE), 0, 0, null);
+        g2.drawImage(crearEspiralDeCirculos(0.022f, 0.0015f, 24, 53, 15, Color.BLUE), 0, 0, null);
+        g2.drawImage(crearEspiralDeCirculos(0.022f, 0.00195f, 24, 69, 12, Color.BLUE), 0, 0, null);
+        g2.drawImage(crearEspiralDeCirculos(0.022f, 0.00185f, 30, 87, 9, Color.BLUE), 0, 0, null);
+        g2.drawImage(crearEspiralDeCirculos(0.022f, 0.00175f, 36, 108, 6, Color.BLUE), 0, 0, null);
+        g2.drawImage(crearEspiralDeCirculos(0.022f, 0.0022f, 36, 133, 3, Color.BLUE), 0, 0, null);
+        g2.drawImage(crearEspiralDeCirculos(0.022f, 0.0025f, 36, 160, 0, Color.BLUE), 0, 0, null);
 
         g2.dispose();
 

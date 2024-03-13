@@ -87,32 +87,20 @@ public class RelojOnDisplaySegundero implements Runnable {
 
         Point puntaAjuga = calcularCoordenada(angulo, TAMANO_SEGUNDOS);
         Point colaAjuga = calcularCoordenada(angulo + 180, (int) (TAMANO_SEGUNDOS * 0.25));
-        Point[] puntosCola = calcularPuntosCola(angulo, TAMANO_SEGUNDOS);
 
         // Dibujado en el buffer
-        dibujarSegundero(g2, puntaAjuga, colaAjuga, puntosCola);
+        dibujarSegundero(g2, puntaAjuga, colaAjuga);
 
         g2.dispose();
         return tempSegundero;
     }
 
-    private void dibujarSegundero(Graphics2D g2, Point puntaAjuga, Point colaAjuga, Point[] puntosCola) {
+    private void dibujarSegundero(Graphics2D g2, Point puntaAjuga, Point colaAjuga) {
         g2.setColor(new Color(255, 255, 255));
         g2.setStroke(new BasicStroke(5));
 
         g2.drawLine(CENTRO_X, CENTRO_Y, CENTRO_X + puntaAjuga.x, CENTRO_Y + puntaAjuga.y);
         g2.drawLine(CENTRO_X, CENTRO_Y, CENTRO_X + colaAjuga.x, CENTRO_Y + colaAjuga.y);
-    }
-
-    private Point[] calcularPuntosCola(float angulo, int tamanio) {
-        Point punto0Cola = calcularCoordenada(angulo + 180, (int) (tamanio * 0.07));
-        Point punto1Cola = calcularCoordenada(angulo + 180 + 11, (int) (tamanio * 0.15));
-        Point punto2Cola = calcularCoordenada(angulo + 180 + 5, (int) (tamanio * 0.3));
-        Point punto3Cola = calcularCoordenada(angulo + 180 - 5, (int) (tamanio * 0.3));
-        Point punto4Cola = calcularCoordenada(angulo + 180 - 11, (int) (tamanio * 0.15));
-        Point punto5Cola = calcularCoordenada(angulo + 180, (int) (tamanio * 0.07));
-
-        return new Point[]{punto0Cola, punto1Cola, punto2Cola, punto3Cola, punto4Cola, punto5Cola};
     }
 
     private Point calcularCoordenada(float angulo, int tamanio) {
