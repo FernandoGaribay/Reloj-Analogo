@@ -130,7 +130,7 @@ public class RelojOnDisplaySegundero implements Runnable {
 
     public void setAtomico(boolean atomico) {
         if (atomico) {
-            this.delay = 83;
+            this.delay = 50;
             this.atomico = true;
         } else {
             this.delay = 1000;

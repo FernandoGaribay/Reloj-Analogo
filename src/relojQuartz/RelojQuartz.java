@@ -4,15 +4,15 @@ import java.awt.*;
 import java.awt.image.*;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import relojQuartz.componentes.RelojBackground;
-import relojQuartz.componentes.RelojClavo;
-import relojQuartz.componentes.RelojHorario;
-import relojQuartz.componentes.RelojMinutero;
-import relojQuartz.componentes.RelojSegundero;
+import relojQuartz.componentes.RelojQuartzBackground;
+import relojQuartz.componentes.RelojQuartzClavo;
+import relojQuartz.componentes.RelojQuartzHorario;
+import relojQuartz.componentes.RelojQuartzMinutero;
+import relojQuartz.componentes.RelojQuartzSegundero;
 import interfaces.RelojInterface;
 import recursos.Calendario;
 
-public class Reloj extends JPanel implements RelojInterface {
+public class RelojQuartz extends JPanel implements RelojInterface {
 
     private int TAMANO_SEGUNDOS;
     private int TAMANO_MINUTOS;
@@ -28,13 +28,13 @@ public class Reloj extends JPanel implements RelojInterface {
     private BufferedImage horario;
     private BufferedImage clavo;
 
-    private RelojBackground relojBackground;
-    private RelojClavo relojClavo;
-    private RelojSegundero relojSegundero;
-    private RelojMinutero relojMinutero;
-    private RelojHorario relojHorario;
+    private RelojQuartzBackground relojBackground;
+    private RelojQuartzClavo relojClavo;
+    private RelojQuartzSegundero relojSegundero;
+    private RelojQuartzMinutero relojMinutero;
+    private RelojQuartzHorario relojHorario;
 
-    public Reloj(int WIDTH, int HEIGHT, boolean atomico) {
+    public RelojQuartz(int WIDTH, int HEIGHT, boolean atomico) {
         TAMANO_SEGUNDOS = 180;
         TAMANO_MINUTOS = 160;
         TAMANO_HORAS = 110;
@@ -51,8 +51,8 @@ public class Reloj extends JPanel implements RelojInterface {
                 CENTRO_X = getWidth() / 2;
                 CENTRO_Y = getHeight() / 2;
 
-                relojBackground = new RelojBackground(getWidth());
-                relojClavo = new RelojClavo(getWidth());
+                relojBackground = new RelojQuartzBackground(getWidth());
+                relojClavo = new RelojQuartzClavo(getWidth());
 
                 repaint();
             }
@@ -66,9 +66,9 @@ public class Reloj extends JPanel implements RelojInterface {
         if (reloj == null) {
             reloj = relojBackground.dibujarReloj();
             clavo = relojClavo.dibujarClavo();
-            relojSegundero = new RelojSegundero(this, getWidth(), TAMANO_SEGUNDOS, atomico);
-            relojMinutero = new RelojMinutero(this, getWidth(), TAMANO_MINUTOS, objCalendario, atomico);
-            relojHorario = new RelojHorario(this, getWidth(), TAMANO_HORAS, atomico);
+            relojSegundero = new RelojQuartzSegundero(this, getWidth(), TAMANO_SEGUNDOS, atomico);
+            relojMinutero = new RelojQuartzMinutero(this, getWidth(), TAMANO_MINUTOS, objCalendario, atomico);
+            relojHorario = new RelojQuartzHorario(this, getWidth(), TAMANO_HORAS, atomico);
         }
 
         g.drawImage(reloj, CENTRO_X - reloj.getWidth() / 2, CENTRO_Y - reloj.getHeight() / 2, null);

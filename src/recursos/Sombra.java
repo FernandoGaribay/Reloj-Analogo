@@ -8,20 +8,15 @@ import java.awt.image.BufferedImage;
 public class Sombra {
 
     private static int diametro;
-    private static int x;
-    private static int y;
 
     public static BufferedImage agregarSombra(BufferedImage imagenOriginal, int distancia, float transparencia, Color color) {
         int anchoImagen = imagenOriginal.getWidth();
         int altoImagen = imagenOriginal.getHeight();
 
         BufferedImage imagenConSombra = new BufferedImage(anchoImagen, altoImagen, BufferedImage.TYPE_INT_ARGB);
-        x = imagenConSombra.getWidth() / 2;
-        y = imagenConSombra.getHeight() / 2;
 
         Graphics2D g2 = imagenConSombra.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
 
         int radio = distancia * 2;
         for (int i = 0; i <= radio; i++) {

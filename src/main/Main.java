@@ -1,20 +1,20 @@
 package main;
 
 import javax.swing.JFrame;
-import relojQuartz.Reloj;
+import relojQuartz.RelojQuartz;
 import relojOnDisplay.RelojOnDisplay;
 
 public class Main extends JFrame {
 
     private String relojSeleccionado;
-    Reloj objRelojQuartz;
+    RelojQuartz objRelojQuartz;
     RelojOnDisplay objRelojOnDisplay;
 
     public Main() {
         initComponents();
 
         relojSeleccionado = "Quartz";
-        objRelojQuartz = new Reloj(500, 500, false);
+        objRelojQuartz = new RelojQuartz(500, 500, false);
 
         pnlContenedor.add(objRelojQuartz);
         pnlContenedor.revalidate();
@@ -94,7 +94,7 @@ public class Main extends JFrame {
         switch (relojSeleccionado) {
             case "Quartz":
                 objRelojQuartz.pararReloj();
-                objRelojQuartz = new Reloj(500, 500, toggleAtomico.isSelected());
+                objRelojQuartz = new RelojQuartz(500, 500, toggleAtomico.isSelected());
                 pnlContenedor.add(objRelojQuartz);
                 break;
             case "OnDisplay":
@@ -135,7 +135,7 @@ public class Main extends JFrame {
             }
 
             pnlContenedor.removeAll();
-            objRelojQuartz = new Reloj(500, 500, toggleAtomico.isSelected());
+            objRelojQuartz = new RelojQuartz(500, 500, toggleAtomico.isSelected());
             pnlContenedor.add(objRelojQuartz);
             pnlContenedor.revalidate();
             pnlContenedor.repaint();

@@ -10,14 +10,14 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import recursos.Sombra;
 
-public class RelojBackground {
+public class RelojQuartzBackground {
 
     private final int DIAMETRO_RELOJ;
     private final int DIAMETRO_CIRCULO_BG;
     private final int CENTRO_X;
     private final int CENTRO_Y;
 
-    public RelojBackground(int DIAMETRO_RELOJ) {
+    public RelojQuartzBackground(int DIAMETRO_RELOJ) {
         this.DIAMETRO_RELOJ = DIAMETRO_RELOJ;
         this.DIAMETRO_CIRCULO_BG = (int) (DIAMETRO_RELOJ * 0.38);
 
@@ -26,19 +26,18 @@ public class RelojBackground {
     }
 
     public BufferedImage dibujarReloj() {
+        // Creacion de la imagen estatica
         BufferedImage reloj = new BufferedImage(DIAMETRO_RELOJ, DIAMETRO_RELOJ, BufferedImage.TYPE_INT_ARGB);
-
         Graphics2D g2 = (Graphics2D) reloj.getGraphics();
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+        // Dibujado 
         g2.drawImage(dibujarBackground(), 0, 0, null);
         g2.drawImage(dibujarHoras(), 0, 0, null);
         g2.drawImage(dibujarMinutos(), 0, 0, null);
         g2.drawImage(dibujarRayasInternas(), 0, 0, null);
         g2.drawImage(dibujarMarca(), 0, 0, null);
+        
         g2.dispose();
-
-        System.out.println("Background del reloj dibujado.");
         return reloj;
     }
 
@@ -47,7 +46,6 @@ public class RelojBackground {
 
         // Obtenemos el objeto de Graphics2D
         Graphics2D g2 = (Graphics2D) background.getGraphics();
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Primer circulo del reloj
         BufferedImage circulo1 = crearCirculo(Color.WHITE, DIAMETRO_RELOJ);
@@ -130,10 +128,12 @@ public class RelojBackground {
     public BufferedImage dibujarRayasInternas() {
         BufferedImage rayas = new BufferedImage(DIAMETRO_RELOJ, DIAMETRO_RELOJ, BufferedImage.TYPE_INT_ARGB);
 
+        // Obtenemos el objeto de Graphics2D
         Graphics2D g2 = (Graphics2D) rayas.getGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(Color.BLACK);
         
+        // Rayas horas
         g2.setStroke(new BasicStroke(3));
         for (int i = 0; i < 12; i++) {
             Point cordsInicio = calcularCoordenada(i * 30 - 90, (int) (DIAMETRO_CIRCULO_BG * 0.70));
@@ -142,12 +142,10 @@ public class RelojBackground {
             g2.drawLine(CENTRO_X + cordsInicio.x, CENTRO_Y + cordsInicio.y, CENTRO_X + cordsFinal.x, CENTRO_Y + cordsFinal.y);
         }
         
+        // Rayas minutos
         g2.setStroke(new BasicStroke(1));
         for (int i = 0; i < 60; i++) {
             if (i % 5 != 0) {
-//                Point cordsPunto = calcularCoordenada(i * 6 - 90, (int) (DIAMETRO_CIRCULO_BG * 0.70));
-//                g2.fillOval(CENTRO_X + cordsPunto.x - 2, CENTRO_Y + cordsPunto.y - 2, 4, 4);
-
                 Point cordsInicio = calcularCoordenada(i * 6 - 90, (int) (DIAMETRO_CIRCULO_BG * 0.70));
                 Point cordsFinal = calcularCoordenada(i * 6 - 90, (int) (DIAMETRO_CIRCULO_BG * 0.65));
 
@@ -162,16 +160,19 @@ public class RelojBackground {
         BufferedImage marca = new BufferedImage(DIAMETRO_RELOJ, DIAMETRO_RELOJ, BufferedImage.TYPE_INT_ARGB);
         Font fuenteMarca = new Font("Arial", Font.BOLD, 12);
 
+        // Obtenemos el objeto de Graphics2D
         Graphics2D g2 = (Graphics2D) marca.getGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(Color.BLACK);
         g2.setFont(fuenteMarca);
 
+        // Obtenemos las metricas
         FontMetrics metrics = g2.getFontMetrics(fuenteMarca);
         Point cordsNumeros = calcularCoordenada(-90, (int) (DIAMETRO_CIRCULO_BG * 0.25));
         int anchoTexto = metrics.stringWidth("QUARTZ");
         int alturaTexto = metrics.getAscent() - metrics.getDescent();
 
+        // Dibujamos
         int numeroCentroX = CENTRO_X + cordsNumeros.x - anchoTexto / 2;
         int numeroCentroY = CENTRO_Y + cordsNumeros.y + alturaTexto / 2;
         g2.drawString("QUARTZ", numeroCentroX, numeroCentroY);

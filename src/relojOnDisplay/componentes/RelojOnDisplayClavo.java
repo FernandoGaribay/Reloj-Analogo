@@ -25,6 +25,7 @@ public class RelojOnDisplayClavo {
         Graphics2D g2 = clavo.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+        // Detalles del clavo
         g2.setColor(new Color(255, 255, 255));
         g2.fillOval(CENTRO_X - 15, CENTRO_Y - 15, 30, 30);
 

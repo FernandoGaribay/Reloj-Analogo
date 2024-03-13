@@ -9,31 +9,28 @@ import java.awt.image.BufferedImage;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import recursos.Calendario;
 import relojOnDisplay.RelojOnDisplay;
-import relojQuartz.componentes.RelojSegundero;
+import relojQuartz.componentes.RelojQuartzSegundero;
 
 public class RelojOnDisplayHorario implements Runnable {
 
     private final RelojOnDisplay RELOJ;
     private boolean RUNNING;
-    private final Calendario objCalendario;
     private final int DIAMETRO_RELOJ;
     private final int TAMANO_HORARIO;
     private final int CENTRO_X;
     private final int CENTRO_Y;
 
-    private Thread hilo;
     private float anguloActual;
     private int delay;
     private float periodo;
+    private Thread hilo;
 
     private BufferedImage horario;
 
     public RelojOnDisplayHorario(RelojOnDisplay RELOJ, int DIAMETRO_RELOJ, int TAMANO_HORARIO, boolean atomico) {
         this.RELOJ = RELOJ;
         this.RUNNING = true;
-        this.objCalendario = new Calendario(4);
         this.DIAMETRO_RELOJ = DIAMETRO_RELOJ;
         this.TAMANO_HORARIO = TAMANO_HORARIO;
 
@@ -58,11 +55,10 @@ public class RelojOnDisplayHorario implements Runnable {
 
             this.anguloActual = avanzarAngulo(this.anguloActual);
             try {
-//                System.out.println("delay: " + delay);
                 Thread.sleep(delay);
                 this.isAtomico();
             } catch (InterruptedException ex) {
-                Logger.getLogger(RelojSegundero.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(RelojQuartzSegundero.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -90,11 +86,11 @@ public class RelojOnDisplayHorario implements Runnable {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setStroke(new BasicStroke(6));
 
+        // Calcular las coordenadas
         Point punto = calcularCoordenada(angulo, TAMANO_HORARIO);
-        g2.drawLine(CENTRO_X, CENTRO_Y, CENTRO_X + punto.x, CENTRO_Y + punto.y);
-        
         Point[] puntos = calcularPuntos(angulo, TAMANO_HORARIO);
 
+        g2.drawLine(CENTRO_X, CENTRO_Y, CENTRO_X + punto.x, CENTRO_Y + punto.y);
         dibujarHorario(g2, puntos);
 
         g2.dispose();

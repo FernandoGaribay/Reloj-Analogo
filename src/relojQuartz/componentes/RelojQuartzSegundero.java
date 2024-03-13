@@ -9,12 +9,12 @@ import java.awt.image.BufferedImage;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import relojQuartz.Reloj;
+import relojQuartz.RelojQuartz;
 import recursos.ReproductorMP3;
 
-public class RelojSegundero implements Runnable {
+public class RelojQuartzSegundero implements Runnable {
 
-    private final Reloj RELOJ;
+    private final RelojQuartz RELOJ;
     private boolean RUNNING;
     private final int DIAMETRO_RELOJ;
     private final int TAMANO_SEGUNDOS;
@@ -28,7 +28,7 @@ public class RelojSegundero implements Runnable {
     private ReproductorMP3 reproductor;
     private BufferedImage segundero;
 
-    public RelojSegundero(Reloj RELOJ, int DIAMETRO_RELOJ, int TAMANO_SEGUNDOS, boolean atomico) {
+    public RelojQuartzSegundero(RelojQuartz RELOJ, int DIAMETRO_RELOJ, int TAMANO_SEGUNDOS, boolean atomico) {
         this.RELOJ = RELOJ;
         this.RUNNING = true;
         this.DIAMETRO_RELOJ = DIAMETRO_RELOJ;
@@ -54,7 +54,7 @@ public class RelojSegundero implements Runnable {
             try {
                 Thread.sleep(delay);
             } catch (InterruptedException ex) {
-                Logger.getLogger(RelojSegundero.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(RelojQuartzSegundero.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 if (!atomico && reproductor != null) {
                     reproductor.reproducirSonido("sonidoSegundero.wav");
@@ -152,7 +152,7 @@ public class RelojSegundero implements Runnable {
 
     public void setAtomico(boolean atomico) {
         if (atomico) {
-            this.delay = 83;
+            this.delay = 50; 
             this.atomico = true;
         } else {
             this.delay = 1000;

@@ -11,13 +11,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import recursos.Calendario;
 import relojOnDisplay.RelojOnDisplay;
-import relojQuartz.componentes.RelojSegundero;
+import relojQuartz.componentes.RelojQuartzSegundero;
 
 public class RelojOnDisplayMinutero implements Runnable {
 
     private final RelojOnDisplay RELOJ;
     private boolean RUNNING;
-    private Calendario objCalendario;
     private final int DIAMETRO_RELOJ;
     private final int TAMANO_MINUTOS;
     private final int CENTRO_X;
@@ -30,10 +29,9 @@ public class RelojOnDisplayMinutero implements Runnable {
 
     private BufferedImage minutero;
 
-    public RelojOnDisplayMinutero(RelojOnDisplay RELOJ, int DIAMETRO_RELOJ, int TAMANO_MINUTOS, Calendario objCalendario, boolean atomico) {
+    public RelojOnDisplayMinutero(RelojOnDisplay RELOJ, int DIAMETRO_RELOJ, int TAMANO_MINUTOS, boolean atomico) {
         this.RELOJ = RELOJ;
         this.RUNNING = true;
-        this.objCalendario = objCalendario;
         this.DIAMETRO_RELOJ = DIAMETRO_RELOJ;
         this.TAMANO_MINUTOS = TAMANO_MINUTOS;
 
@@ -61,7 +59,7 @@ public class RelojOnDisplayMinutero implements Runnable {
                 Thread.sleep(delay);
                 this.isAtomico();
             } catch (InterruptedException ex) {
-                Logger.getLogger(RelojSegundero.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(RelojQuartzSegundero.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

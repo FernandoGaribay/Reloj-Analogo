@@ -4,13 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-public class RelojClavo {
+
+public class RelojQuartzClavo {
 
     private final int DIAMETRO_RELOJ;
     private final int CENTRO_X;
     private final int CENTRO_Y;
 
-    public RelojClavo(int DIAMETRO_RELOJ) {
+    public RelojQuartzClavo(int DIAMETRO_RELOJ) {
         this.DIAMETRO_RELOJ = DIAMETRO_RELOJ;
 
         this.CENTRO_X = this.DIAMETRO_RELOJ / 2;
@@ -24,6 +25,7 @@ public class RelojClavo {
         Graphics2D g2 = clavo.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+        // Detalles del clavo
         g2.setColor(new Color(255, 255, 153));
         g2.fillOval(CENTRO_X - 6, CENTRO_Y - 6, 12, 12);
         
