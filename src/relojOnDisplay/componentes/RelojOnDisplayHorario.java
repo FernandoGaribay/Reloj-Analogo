@@ -1,5 +1,6 @@
 package relojOnDisplay.componentes;
 
+import interfaces.RelojInterface;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -9,12 +10,11 @@ import java.awt.image.BufferedImage;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import relojOnDisplay.RelojOnDisplay;
 import relojQuartz.componentes.RelojQuartzSegundero;
 
 public class RelojOnDisplayHorario implements Runnable {
 
-    private final RelojOnDisplay RELOJ;
+    private final RelojInterface RELOJ;
     private boolean RUNNING;
     private final int DIAMETRO_RELOJ;
     private final int TAMANO_HORARIO;
@@ -28,7 +28,7 @@ public class RelojOnDisplayHorario implements Runnable {
 
     private BufferedImage horario;
 
-    public RelojOnDisplayHorario(RelojOnDisplay RELOJ, int DIAMETRO_RELOJ, int TAMANO_HORARIO, boolean atomico) {
+    public RelojOnDisplayHorario(RelojInterface RELOJ, int DIAMETRO_RELOJ, int TAMANO_HORARIO, boolean atomico) {
         this.RELOJ = RELOJ;
         this.RUNNING = true;
         this.DIAMETRO_RELOJ = DIAMETRO_RELOJ;

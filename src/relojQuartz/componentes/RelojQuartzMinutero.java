@@ -1,5 +1,6 @@
 package relojQuartz.componentes;
 
+import interfaces.RelojInterface;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -10,13 +11,11 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import recursos.Calendario;
-import relojQuartz.RelojQuartz;
 
 public class RelojQuartzMinutero implements Runnable {
 
-    private final RelojQuartz RELOJ;
+    private final RelojInterface RELOJ;
     private boolean RUNNING;
-    private Calendario objCalendario;
     private final int DIAMETRO_RELOJ;
     private final int TAMANO_MINUTOS;
     private final int CENTRO_X;
@@ -29,10 +28,9 @@ public class RelojQuartzMinutero implements Runnable {
 
     private BufferedImage minutero;
 
-    public RelojQuartzMinutero(RelojQuartz RELOJ, int DIAMETRO_RELOJ, int TAMANO_MINUTOS, Calendario objCalendario ,boolean atomico) {
+    public RelojQuartzMinutero(RelojInterface RELOJ, int DIAMETRO_RELOJ, int TAMANO_MINUTOS, Calendario objCalendario ,boolean atomico) {
         this.RELOJ = RELOJ;
         this.RUNNING = true;
-        this.objCalendario = objCalendario;
         this.DIAMETRO_RELOJ = DIAMETRO_RELOJ;
         this.TAMANO_MINUTOS = TAMANO_MINUTOS;
 

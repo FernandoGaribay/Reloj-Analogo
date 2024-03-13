@@ -1,5 +1,6 @@
 package relojQuartz.componentes;
 
+import interfaces.RelojInterface;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -14,7 +15,7 @@ import recursos.ReproductorMP3;
 
 public class RelojQuartzSegundero implements Runnable {
 
-    private final RelojQuartz RELOJ;
+    private final RelojInterface RELOJ;
     private boolean RUNNING;
     private final int DIAMETRO_RELOJ;
     private final int TAMANO_SEGUNDOS;
@@ -28,7 +29,7 @@ public class RelojQuartzSegundero implements Runnable {
     private ReproductorMP3 reproductor;
     private BufferedImage segundero;
 
-    public RelojQuartzSegundero(RelojQuartz RELOJ, int DIAMETRO_RELOJ, int TAMANO_SEGUNDOS, boolean atomico) {
+    public RelojQuartzSegundero(RelojInterface RELOJ, int DIAMETRO_RELOJ, int TAMANO_SEGUNDOS, boolean atomico) {
         this.RELOJ = RELOJ;
         this.RUNNING = true;
         this.DIAMETRO_RELOJ = DIAMETRO_RELOJ;
